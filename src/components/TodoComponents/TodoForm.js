@@ -1,10 +1,21 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { TextInputGroup } from './TextInputGroup';
 
-export function TodoForm(props) {
-	const { type, name, placeholder, value } = props;
-	return (
-		<form className="form" action="">
-			<TextInputGroup type={type} name={name} placeholder={placeholder} value={value} />
-		</form>
-	);
+export class TodoForm extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			value: ''
+		};
+	}
+
+	render() {
+		const { value } = this.state;
+
+		return (
+			<form className="form" action="">
+				<TextInputGroup type="text" placeholder="Enter value" value={value} />
+			</form>
+		);
+	}
 }
