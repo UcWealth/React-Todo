@@ -35,6 +35,10 @@ class App extends Component {
 		}));
 	};
 
+	handleButtonClick = () => {
+		console.log('you click me');
+	};
+
 	render() {
 		const { todo, value } = this.state;
 
