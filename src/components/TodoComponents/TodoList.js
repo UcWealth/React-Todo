@@ -6,7 +6,9 @@ import { Todo } from './Todo';
 feel free to change this component.js into TodoList.js
  */
 export function TodoList(props) {
-	const { todoList } = props;
+	const { todoList, handleClick } = props;
 
-	return <ul>{todoList.map(todo => <Todo key={todo.id} {...todo} />)}</ul>;
+	return (
+		<ul>{todoList.map(todo => <Todo key={todo.id} handleClick={handleClick} {...todo} actionType="selected" />)}</ul>
+	);
 }

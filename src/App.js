@@ -61,6 +61,7 @@ class App extends Component {
 	handleClick = evt => {
 		// Get action type
 		const actionType = evt.target.dataset.action;
+		const todoId = evt.target.dataset.id;
 
 		switch (actionType) {
 			case 'add':
@@ -68,15 +69,27 @@ class App extends Component {
 				this.addNewTodo();
 				break;
 
+			case 'selected':
+				this.markAsCompleted(evt);
+				break;
+
 			default:
 				// Remove a specific
-				this.removeCompletedTodo();
+				this.removeCompletedTodo(todoId);
 				break;
 		}
 	};
 
-	removeCompletedTodo = () => {
-		console.log('clear');
+	markAsCompleted = event => {
+		event.target.classList.toggle('strike');
+	};
+
+	removeCompletedTodo = todoId => {
+		if (todoId) {
+			console.log(todoId);
+		} else {
+			console.log('no id');
+		}
 	};
 
 	render() {
@@ -85,7 +98,7 @@ class App extends Component {
 		return (
 			<div>
 				<h2>Welcome to your Todo App!</h2>
-				<TodoList todoList={todo} />
+				<TodoList todoList={todo} handleClick={this.handleClick} />
 				<TodoForm todoList={todo} value={value} handleOnchange={this.handleOnchange} handleClick={this.handleClick} />
 			</div>
 		);
