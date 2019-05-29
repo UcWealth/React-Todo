@@ -35,8 +35,32 @@ class App extends Component {
 		}));
 	};
 
+	addNewTodo = () => {
+		// Get previous todo array state
+		const { todo } = this.state;
+
+		// Get user input
+		const { value } = this.state;
+
+		// newly created todo (object)
+		const newTodo = {
+			task: value,
+			id: Date(Date.now()),
+			completed: false
+		};
+
+		// add newly created todo to existing list
+		const newTodoList = todo.concat(newTodo);
+
+		this.setState(prevState => ({
+			todo: newTodoList,
+			value: ''
+		}));
+	};
+
 	handleButtonClick = () => {
-		console.log('you click me');
+		// Add new todo list
+		this.addNewTodo();
 	};
 
 	render() {
@@ -46,7 +70,12 @@ class App extends Component {
 			<div>
 				<h2>Welcome to your Todo App!</h2>
 				<TodoList todoList={todo} />
-				<TodoForm todoList={todo} value={value} handleOnchange={this.handleOnchange} />
+				<TodoForm
+					todoList={todo}
+					value={value}
+					handleOnchange={this.handleOnchange}
+					handleButtonClick={this.handleButtonClick}
+				/>
 			</div>
 		);
 	}
