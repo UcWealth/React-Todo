@@ -58,7 +58,7 @@ class App extends Component {
 		}));
 	};
 
-	handleButtonClick = () => {
+	handleAddTodoClick = () => {
 		// Add new todo list
 		this.addNewTodo();
 	};
@@ -74,7 +74,7 @@ class App extends Component {
 					todoList={todo}
 					value={value}
 					handleOnchange={this.handleOnchange}
-					handleButtonClick={this.handleButtonClick}
+					handleAddTodoClick={this.handleAddTodoClick}
 				/>
 			</div>
 		);

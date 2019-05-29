@@ -1,10 +1,10 @@
 import React from 'react';
 
 export function TodoAddButton(props) {
-	const { buttonText, buttonType, handleButtonClick } = props;
+	const { buttonText, buttonType, handleAddTodoClick } = props;
 
 	return (
-		<button type={buttonType} className="btn" onClick={handleButtonClick}>
+		<button type={buttonType} className="btn" onClick={handleAddTodoClick}>
 			{buttonText}
 		</button>
 	);
