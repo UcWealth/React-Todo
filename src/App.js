@@ -14,7 +14,7 @@ class App extends Component {
 			todo: [
 				{
 					task: 'Organize Garage',
-					id: Date.now(),
+					id: Date(Date.now()),
 					completed: false
 				},
 				{
