@@ -58,9 +58,25 @@ class App extends Component {
 		}));
 	};
 
-	handleAddTodoClick = () => {
-		// Add new todo list
-		this.addNewTodo();
+	handleClick = evt => {
+		// Get action type
+		const actionType = evt.target.dataset.action;
+
+		switch (actionType) {
+			case 'add':
+				// Add new todo list
+				this.addNewTodo();
+				break;
+
+			default:
+				// Remove a specific
+				this.removeCompletedTodo();
+				break;
+		}
+	};
+
+	removeCompletedTodo = () => {
+		console.log('clear');
 	};
 
 	render() {
@@ -70,12 +86,7 @@ class App extends Component {
 			<div>
 				<h2>Welcome to your Todo App!</h2>
 				<TodoList todoList={todo} />
-				<TodoForm
-					todoList={todo}
-					value={value}
-					handleOnchange={this.handleOnchange}
-					handleAddTodoClick={this.handleAddTodoClick}
-				/>
+				<TodoForm todoList={todo} value={value} handleOnchange={this.handleOnchange} handleClick={this.handleClick} />
 			</div>
 		);
 	}
