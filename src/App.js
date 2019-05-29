@@ -23,18 +23,26 @@ class App extends Component {
 					id: Date.now(),
 					completed: false
 				}
-			]
+			],
+			value: ''
 		};
 	}
 
+	handleOnchange = evt => {
+		const inputValue = evt.target.value;
+		this.setState(prevState => ({
+			value: inputValue
+		}));
+	};
+
 	render() {
-		const { todo } = this.state;
+		const { todo, value } = this.state;
 
 		return (
 			<div>
 				<h2>Welcome to your Todo App!</h2>
 				<TodoList todoList={todo} />
-				<TodoForm />
+				<TodoForm todoList={todo} value={value} handleOnchange={this.handleOnchange} />
 			</div>
 		);
 	}
