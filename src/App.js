@@ -34,7 +34,7 @@ class App extends Component {
 	}
 
 	componentDidMount() {
-		this.linkStateWithLocalStorage();
+		this.setStateWithLocalStorage();
 
 		/**
 		 *  Add event listener to save state to localStorage when user leaves/refreshes the page
@@ -50,37 +50,32 @@ class App extends Component {
 		this.saveStateToLocalStorage();
 	}
 
-	linkStateWithLocalStorage() {
-		// for all items in state
-		for (let key in this.state) {
-			// if the key exists in localStorage
-			if (localStorage.hasOwnProperty(key)) {
-				// get the key's value from localStorage
-				let value = localStorage.getItem(key);
+	setStateWithLocalStorage() {
+		const state = this.state;
+		for (let key in state) {
+			if (key !== 'form') {
+				if (localStorage.hasOwnProperty(key)) {
+					let value = localStorage.getItem(key);
 
-				// parse the localStorage string and setState
-				try {
-					value = JSON.parse(value);
-					this.setState({ [key]: value });
-				} catch (e) {
-					// handle empty string
-					this.setState({ [key]: value });
+					// parse the localStorage string and setState
+					try {
+						value = JSON.parse(value);
+						this.setState({ [key]: value });
+					} catch (e) {
+						this.setState({ [key]: value });
+					}
 				}
 			}
 		}
 	}
 
 	saveStateToLocalStorage() {
-		// for every item in React state
-		for (let key in this.state) {
-			// save to localStorage
-			localStorage.setItem(key, JSON.stringify(this.state[key]));
+		const state = this.state;
+		for (let key in state) {
+			if (key !== 'form') {
+				localStorage.setItem(key, JSON.stringify(this.state[key]));
+			}
 		}
-	}
-
-	updateInput(key, value) {
-		// update react state
-		this.setState({ [key]: value });
 	}
 
 	inputChange = (field, value) => {
