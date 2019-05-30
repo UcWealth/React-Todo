@@ -18,7 +18,14 @@ export function TodoList(props) {
 				value={value}
 				inputChange={inputChange}
 			/>
-			<ul>{todoList.map(todo => <Todo key={todo.id} toggleTodoCompleted={toggleTodoCompleted} {...todo} />)}</ul>
+			<ul>
+				{/* eslint-disable-next-line array-callback-return */}
+				{todoList.map(todo => {
+					if (todo.task.includes(value)) {
+						return <Todo key={todo.id} toggleTodoCompleted={toggleTodoCompleted} {...todo} />;
+					}
+				})}
+			</ul>
 		</div>
 	);
 }
