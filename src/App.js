@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { TodoList } from './components/TodoComponents/TodoList';
 import { TodoForm } from './components/TodoComponents/TodoForm';
+import './App.css';
 
 /**
  * you will need a place to store your state in this component.
@@ -44,7 +45,7 @@ class App extends Component {
 		const sanitizeValue = value.toString().trim().length;
 
 		// check if user input value
-		if (sanitizeValue > 3) {
+		if (sanitizeValue >= 3) {
 			// newly created todo (object)
 			const newTodo = {
 				task: value,
@@ -118,10 +119,22 @@ class App extends Component {
 		const { todo, value } = this.state;
 
 		return (
-			<div>
-				<h2>Welcome to your Todo App!</h2>
-				<TodoList todoList={todo} handleClick={this.handleClick} />
-				<TodoForm todoList={todo} value={value} handleOnchange={this.handleOnchange} handleClick={this.handleClick} />
+			<div className="todo">
+				<h2 className="h2">Welcome to your Todo App!</h2>
+				<div className="content">
+					<section className="todo-list-container">
+						<TodoList todoList={todo} handleClick={this.handleClick} />
+					</section>
+
+					<section className="form-container">
+						<TodoForm
+							todoList={todo}
+							value={value}
+							handleOnchange={this.handleOnchange}
+							handleClick={this.handleClick}
+						/>
+					</section>
+				</div>
 			</div>
 		);
 	}
