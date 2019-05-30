@@ -41,6 +41,12 @@ ul {
 .todo-list-container .list-item {
   font-size: 3em;
   text-transform: capitalize;
+  transition: 0.2s;
+}
+
+.todo-list-container .list-item:hover {
+  cursor: pointer;
+  color: #da1b60;
 }
 
 .todo-list-container .list-item::before {

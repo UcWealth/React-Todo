@@ -1,34 +1,25 @@
 import React from 'react';
 import { Todo } from './Todo';
-import { TextInputGroup } from './TextInputGroup';
+
 /**
  * 
  * your components will all go in this `component` directory.
 feel free to change this component.js into TodoList.js
  */
 export function TodoList(props) {
-	const { todoList, toggleTodoCompleted, value, inputChange } = props;
+	const { todoList, toggleTodoCompleted, value } = props;
+	const searchTerm = value.toLowerCase();
 
 	return (
-		<div>
-			<TextInputGroup
-				type="text"
-				name="search"
-				placeholder="Enter search keyword"
-				value={value}
-				inputChange={inputChange}
-			/>
-			<ul>
-				{/* eslint-disable-next-line array-callback-return */}
-				{todoList.map(todo => {
-					const currentTodo = todo.task.toLowerCase();
-					const searTerm = value.toLowerCase();
+		<ul>
+			{/* eslint-disable-next-line array-callback-return */}
+			{todoList.map(todo => {
+				const currentTodo = todo.task.toLowerCase();
 
-					if (currentTodo.includes(searTerm)) {
-						return <Todo key={todo.id} toggleTodoCompleted={toggleTodoCompleted} {...todo} />;
-					}
-				})}
-			</ul>
-		</div>
+				if (currentTodo.includes(searchTerm)) {
+					return <Todo key={todo.id} toggleTodoCompleted={toggleTodoCompleted} {...todo} />;
+				}
+			})}
+		</ul>
 	);
 }

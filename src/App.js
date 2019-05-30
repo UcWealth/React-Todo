@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { TodoList } from './components/TodoComponents/TodoList';
 import { TodoForm } from './components/TodoComponents/TodoForm';
+import { TodoSearch } from './components/TodoComponents/TodoSearch';
 import './App.css';
 
 const initialTodoState = [
@@ -158,12 +159,9 @@ class App extends Component {
 				<h2 className="h2">Welcome to your Todo App!</h2>
 				<div className="content">
 					<section className="todo-list-container">
-						<TodoList
-							todoList={todo}
-							toggleTodoCompleted={this.toggleTodoCompleted}
-							inputChange={this.inputChange}
-							value={form.search}
-						/>
+						<TodoSearch inputChange={this.inputChange} value={form.search} />
+
+						<TodoList todoList={todo} value={form.search} toggleTodoCompleted={this.toggleTodoCompleted} />
 					</section>
 
 					<section className="form-container">
