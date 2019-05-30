@@ -17,7 +17,8 @@ const initialTodoState = [
 ];
 
 const initialFormState = {
-	descriptionValue: ''
+	descriptionValue: '',
+	search: ''
 };
 
 const initialAppState = {
@@ -107,7 +108,12 @@ class App extends Component {
 				<h2 className="h2">Welcome to your Todo App!</h2>
 				<div className="content">
 					<section className="todo-list-container">
-						<TodoList todoList={todo} toggleTodoCompleted={this.toggleTodoCompleted} />
+						<TodoList
+							todoList={todo}
+							toggleTodoCompleted={this.toggleTodoCompleted}
+							inputChange={this.inputChange}
+							value={form.search}
+						/>
 					</section>
 
 					<section className="form-container">
