@@ -21,7 +21,10 @@ export function TodoList(props) {
 			<ul>
 				{/* eslint-disable-next-line array-callback-return */}
 				{todoList.map(todo => {
-					if (todo.task.includes(value)) {
+					const currentTodo = todo.task.toLowerCase();
+					const searTerm = value.toLowerCase();
+
+					if (currentTodo.includes(searTerm)) {
 						return <Todo key={todo.id} toggleTodoCompleted={toggleTodoCompleted} {...todo} />;
 					}
 				})}
