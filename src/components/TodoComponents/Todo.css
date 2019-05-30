@@ -1,0 +1,7 @@
+/* Basic layout */
+
+/* Strikethrough */
+.strikethrough {
+  color: #da1b60;
+  text-decoration: line-through red;
+}
