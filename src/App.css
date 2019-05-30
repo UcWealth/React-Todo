@@ -93,26 +93,26 @@ ul {
   outline: 0;
 }
 
-.form .btn[data-action="add"] {
+.btn.add {
   background: #da1b60;
   color: white;
 }
 
-.form .btn[data-action="add"]:hover {
+.btn.add:hover {
   background: #7a0530;
 }
 
-.form .btn[data-action="clear"] {
+.btn.remove {
   background: #ff8a00;
   color: white;
 }
 
-.form .btn[data-action="clear"]:hover {
+.btn.remove {
   background: #ac5c00;
   color: white;
 }
 
-.form .btn:active {
+.btn.btn:active {
   transform: translateY(5px);
 }
 

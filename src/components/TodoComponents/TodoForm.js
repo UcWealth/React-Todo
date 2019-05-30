@@ -1,15 +1,25 @@
 import React from 'react';
 import { TextInputGroup } from './TextInputGroup';
-import { TodoAddButton } from './TodoAddButton';
 
 export function TodoForm(props) {
-	const { value, handleOnchange, handleClick } = props;
+	const { value, addNewTodo, removeCompletedTodo, inputChange } = props;
 
 	return (
 		<form className="form" action="">
-			<TextInputGroup type="text" placeholder="Enter value" value={value} handleOnchange={handleOnchange} />
-			<TodoAddButton buttonText="Add Todo" buttonType="button" handleClick={handleClick} actionType="add" />
-			<TodoAddButton buttonText="Clear Completed" buttonType="button" handleClick={handleClick} actionType="clear" />
+			<TextInputGroup
+				type="text"
+				name="descriptionValue"
+				placeholder="Enter value"
+				value={value}
+				inputChange={inputChange}
+			/>
+
+			<button type="button" className="btn add" onClick={() => addNewTodo()}>
+				Add Todo
+			</button>
+			<button type="button" className="btn remove" onClick={() => removeCompletedTodo()}>
+				Clear Completed
+			</button>
 		</form>
 	);
 }
