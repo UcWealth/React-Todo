@@ -5,7 +5,14 @@ export function TodoForm(props) {
 	const { value, addNewTodo, removeCompletedTodo, inputChange } = props;
 
 	return (
-		<form className="form" action="">
+		<form
+			className="form"
+			action=""
+			onSubmit={evt => {
+				evt.preventDefault();
+				addNewTodo();
+			}}
+		>
 			<TextInputGroup
 				type="text"
 				name="descriptionValue"
