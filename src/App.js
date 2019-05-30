@@ -15,12 +15,12 @@ class App extends Component {
 			todo: [
 				{
 					task: 'Organize Garage',
-					id: Date(Date.now()),
+					id: Date.now() + Math.random(),
 					completed: false
 				},
 				{
 					task: 'Bake Cookies',
-					id: Date.now(),
+					id: Date.now() + Math.random(),
 					completed: false
 				}
 			],
@@ -41,21 +41,25 @@ class App extends Component {
 
 		// Get user input
 		const { value } = this.state;
+		const sanitizeValue = value.toString().trim().length;
 
-		// newly created todo (object)
-		const newTodo = {
-			task: value,
-			id: Date(Date.now()),
-			completed: false
-		};
+		// check if user input value
+		if (sanitizeValue > 3) {
+			// newly created todo (object)
+			const newTodo = {
+				task: value,
+				id: Date.now() + Math.random(),
+				completed: false
+			};
 
-		// add newly created todo to existing list
-		const newTodoList = todo.concat(newTodo);
+			// add newly created todo to existing list
+			const newTodoList = todo.concat(newTodo);
 
-		this.setState(prevState => ({
-			todo: newTodoList,
-			value: ''
-		}));
+			this.setState(prevState => ({
+				todo: newTodoList,
+				value: ''
+			}));
+		}
 	};
 
 	handleClick = evt => {
@@ -70,26 +74,44 @@ class App extends Component {
 				break;
 
 			case 'selected':
-				this.markAsCompleted(evt);
+				this.toggleTodoCompleted(todoId);
 				break;
 
 			default:
-				// Remove a specific
-				this.removeCompletedTodo(todoId);
+				this.removeCompletedTodo();
 				break;
 		}
 	};
 
-	markAsCompleted = event => {
-		event.target.classList.toggle('strike');
+	toggleTodoCompleted = todoId => {
+		// Convert date string to integer
+		const todoID = parseFloat(todoId);
+
+		// get all todo
+		const { todo } = this.state;
+
+		const newTodo = todo.map(todo => {
+			if (todo.id === todoID) {
+				todo.completed = !todo.completed;
+				return todo;
+			} else {
+				return todo;
+			}
+		});
+
+		this.setState(prevState => ({
+			todo: newTodo
+		}));
 	};
 
-	removeCompletedTodo = todoId => {
-		if (todoId) {
-			console.log(todoId);
-		} else {
-			console.log('no id');
-		}
+	removeCompletedTodo = () => {
+		const { todo } = this.state;
+
+		const newTodo = todo.filter(todo => todo.completed !== true);
+
+		this.setState(prevState => ({
+			todo: newTodo
+		}));
 	};
 
 	render() {

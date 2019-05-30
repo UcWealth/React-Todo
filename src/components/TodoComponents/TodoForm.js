@@ -7,13 +7,7 @@ export function TodoForm(props) {
 
 	return (
 		<form className="form" action="">
-			<TextInputGroup
-				type="text"
-				placeholder="Enter value"
-				value={value}
-				handleOnchange={handleOnchange}
-				handleClick={handleClick}
-			/>
+			<TextInputGroup type="text" placeholder="Enter value" value={value} handleOnchange={handleOnchange} />
 			<TodoAddButton buttonText="Add Todo" buttonType="button" handleClick={handleClick} actionType="add" />
 			<TodoAddButton buttonText="Clear Completed" buttonType="button" handleClick={handleClick} actionType="clear" />
 		</form>
