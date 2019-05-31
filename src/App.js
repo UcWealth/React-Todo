@@ -1,137 +1,172 @@
 import React, { Component } from 'react';
 import { TodoList } from './components/TodoComponents/TodoList';
 import { TodoForm } from './components/TodoComponents/TodoForm';
+import { TodoSearch } from './components/TodoComponents/TodoSearch';
 import './App.css';
 
-/**
- * you will need a place to store your state in this component.
-  design `App` to be the parent component of your application.
-  this component is going to take care of state, and any change handlers you need to work with your state
- */
+const initialTodoState = [
+	{
+		task: 'Organize Garage',
+		id: Date.now() + Math.random(),
+		completed: false
+	},
+	{
+		task: 'Bake Cookies',
+		id: Date.now() + Math.random(),
+		completed: false
+	}
+];
+
+const initialFormState = {
+	descriptionValue: '',
+	search: ''
+};
+
+const initialAppState = {
+	todo: initialTodoState,
+	form: initialFormState
+};
 
 class App extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			todo: [
-				{
-					task: 'Organize Garage',
-					id: Date.now() + Math.random(),
-					completed: false
-				},
-				{
-					task: 'Bake Cookies',
-					id: Date.now() + Math.random(),
-					completed: false
-				}
-			],
-			value: ''
-		};
+		this.state = initialAppState;
 	}
 
-	handleOnchange = evt => {
-		const inputValue = evt.target.value;
+	componentDidMount() {
+		this.setStateWithLocalStorage();
+
+		/**
+		 *  Add event listener to save state to localStorage when user leaves/refreshes the page
+		 *  
+		 */
+		window.addEventListener('beforeunload', this.saveStateToLocalStorage.bind(this));
+	}
+
+	componentWillUnmount() {
+		window.removeEventListener('beforeunload', this.saveStateToLocalStorage.bind(this));
+
+		// saves if component has a chance to un mount
+		this.saveStateToLocalStorage();
+	}
+
+	setStateWithLocalStorage() {
+		const state = this.state;
+		for (let key in state) {
+			if (key !== 'form') {
+				if (localStorage.hasOwnProperty(key)) {
+					let value = localStorage.getItem(key);
+
+					// parse the localStorage string and setState
+					try {
+						value = JSON.parse(value);
+						this.setState({ [key]: value });
+					} catch (e) {
+						this.setState({ [key]: value });
+					}
+				}
+			}
+		}
+	}
+
+	saveStateToLocalStorage() {
+		const state = this.state;
+		for (let key in state) {
+			if (key !== 'form') {
+				localStorage.setItem(key, JSON.stringify(this.state[key]));
+			}
+		}
+	}
+
+	inputChange = (field, value) => {
 		this.setState(prevState => ({
-			value: inputValue
+			form: {
+				...prevState.form,
+				[field]: value
+			}
 		}));
 	};
 
 	addNewTodo = () => {
-		// Get previous todo array state
-		const { todo } = this.state;
+		this.setState(prevState => {
+			// Get previous state
+			const { todo, form } = prevState;
 
-		// Get user input
-		const { value } = this.state;
-		const sanitizeValue = value.toString().trim().length;
+			const sanitizeValue = form.descriptionValue.toString().trim().length;
 
-		// check if user input value
-		if (sanitizeValue >= 3) {
-			// newly created todo (object)
-			const newTodo = {
-				task: value,
-				id: Date.now() + Math.random(),
-				completed: false
-			};
+			// check if user input value
+			if (sanitizeValue >= 3) {
+				// newly created todo (object)
+				const newTodo = {
+					task: form.descriptionValue,
+					id: Date.now() + Math.random(),
+					completed: false
+				};
 
-			// add newly created todo to existing list
-			const newTodoList = todo.concat(newTodo);
-
-			this.setState(prevState => ({
-				todo: newTodoList,
-				value: ''
-			}));
-		}
-	};
-
-	handleClick = evt => {
-		// Get action type
-		const actionType = evt.target.dataset.action;
-		const todoId = evt.target.dataset.id;
-
-		switch (actionType) {
-			case 'add':
-				// Add new todo list
-				this.addNewTodo();
-				break;
-
-			case 'selected':
-				this.toggleTodoCompleted(todoId);
-				break;
-
-			default:
-				this.removeCompletedTodo();
-				break;
-		}
+				return {
+					todo: todo.concat(newTodo),
+					form: initialFormState
+				};
+			}
+		});
 	};
 
 	toggleTodoCompleted = todoId => {
-		// Convert date string to integer
-		const todoID = parseFloat(todoId);
+		this.setState(prevState => {
+			// Convert date string to integer
+			const todoID = parseFloat(todoId);
 
-		// get all todo
-		const { todo } = this.state;
+			// get all todo
+			const { todo } = prevState;
 
-		const newTodo = todo.map(todo => {
-			if (todo.id === todoID) {
-				todo.completed = !todo.completed;
-				return todo;
-			} else {
-				return todo;
-			}
+			const newTodo = todo.map(todo => {
+				if (todo.id === todoID) {
+					todo.completed = !todo.completed;
+					return todo;
+				} else {
+					return todo;
+				}
+			});
+
+			return {
+				todo: newTodo
+			};
 		});
-
-		this.setState(prevState => ({
-			todo: newTodo
-		}));
 	};
 
 	removeCompletedTodo = () => {
-		const { todo } = this.state;
+		this.setState(prevState => {
+			const { todo } = prevState;
 
-		const newTodo = todo.filter(todo => todo.completed !== true);
+			const newTodo = todo.filter(todo => todo.completed !== true);
 
-		this.setState(prevState => ({
-			todo: newTodo
-		}));
+			return {
+				todo: newTodo
+			};
+		});
 	};
 
 	render() {
-		const { todo, value } = this.state;
+		const { todo, form } = this.state;
 
 		return (
 			<div className="todo">
 				<h2 className="h2">Welcome to your Todo App!</h2>
 				<div className="content">
 					<section className="todo-list-container">
-						<TodoList todoList={todo} handleClick={this.handleClick} />
+						<TodoSearch inputChange={this.inputChange} value={form.search} />
+
+						<TodoList todoList={todo} value={form.search} toggleTodoCompleted={this.toggleTodoCompleted} />
 					</section>
 
 					<section className="form-container">
 						<TodoForm
 							todoList={todo}
-							value={value}
+							value={form.descriptionValue}
 							handleOnchange={this.handleOnchange}
-							handleClick={this.handleClick}
+							addNewTodo={this.addNewTodo}
+							removeCompletedTodo={this.removeCompletedTodo}
+							inputChange={this.inputChange}
 						/>
 					</section>
 				</div>

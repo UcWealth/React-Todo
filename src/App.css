@@ -31,10 +31,9 @@ ul {
 }
 
 .todo-list-container {
-  width: 40%;
-  border: 1px solid #da1b60;
-  padding: 20px;
-  border-radius: 10px;
+  width: 50%;
+  border-right: 1px solid #da1b60;
+  padding-right: 50px;
   max-height: 400px;
   overflow: auto;
 }
@@ -42,6 +41,12 @@ ul {
 .todo-list-container .list-item {
   font-size: 3em;
   text-transform: capitalize;
+  transition: 0.2s;
+}
+
+.todo-list-container .list-item:hover {
+  cursor: pointer;
+  color: #da1b60;
 }
 
 .todo-list-container .list-item::before {
@@ -55,7 +60,8 @@ ul {
 }
 
 .form-container {
-  width: 40%;
+  width: 50%;
+  padding-left: 50px;
 }
 
 .form {
@@ -63,7 +69,8 @@ ul {
   flex-wrap: wrap;
 }
 
-.form .input {
+.form .input,
+.todo-list-container .input {
   display: block;
   width: 100%;
   height: 25px;
@@ -74,6 +81,15 @@ ul {
   padding: 3px 8px;
   outline: 0;
   transition: 0.2s;
+}
+
+.todo-list-container .input {
+  width: auto;
+}
+
+.todo-list-container div {
+  display: flex;
+  flex-direction: column;
 }
 
 .form .input:focus {
@@ -93,26 +109,26 @@ ul {
   outline: 0;
 }
 
-.form .btn[data-action="add"] {
+.btn.add {
   background: #da1b60;
   color: white;
 }
 
-.form .btn[data-action="add"]:hover {
+.btn.add:hover {
   background: #7a0530;
 }
 
-.form .btn[data-action="clear"] {
+.btn.remove {
   background: #ff8a00;
   color: white;
 }
 
-.form .btn[data-action="clear"]:hover {
+.btn.remove:hover {
   background: #ac5c00;
   color: white;
 }
 
-.form .btn:active {
+.btn.btn:active {
   transform: translateY(5px);
 }
 
